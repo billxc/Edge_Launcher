@@ -30,9 +30,10 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{A1238CE8-5AF4-4BBB-9821-E6BBB0D44F75}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>WebViewSample</RootNamespace>
+    <RootNamespace>Chromium_Launcher</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>Chromium_Launcher</ProjectName>
+    <OutDir>$(SolutionDir)build\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
