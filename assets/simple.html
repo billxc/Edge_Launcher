@@ -13,6 +13,7 @@
       background-color: #fff;
     }
   </style>
+  <script src="model.js"></script>
   <script src="./vue-1.0.js"></script>
 
 </HEAD>
@@ -40,21 +41,6 @@
     // var vm = new Vue({
     //     // 选项
     // })
-    default_profiles =
-      [
-        {
-          "name": "Edge Launcher",
-          "exePath": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
-          "appDir": "C:\\tmp\\1",
-          "extraParams": ""
-        },
-        {
-          "name": "Edge Launcher 2",
-          "exePath": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
-          "appDir": "C:\\tmp\\1",
-          "extraParams": ""
-        }
-      ];
     // load profiles from local storage
     var profiles_str = localStorage.getItem("profiles");
     var profiles = null;
@@ -66,7 +52,7 @@
       }
     }
     if (!profiles) {
-      profiles = default_profiles;
+      profiles = DEFAULT_PROFILES;
     }
 
     new Vue({

@@ -1,0 +1,187 @@
+<HTML>
+
+<HEAD>
+    <META NAME="GENERATOR" Content="Microsoft Visual Studio">
+
+    <TITLE>Edge Launcher</TITLE>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        #app button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #app button:hover {
+            background-color: #0056b3;
+        }
+
+        .profiler-container {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .profile-list {
+            margin-right: 20px;
+            width: 460px;
+        }
+
+        .profile-form {
+            width: 100%;
+        }
+
+        .profile-item {
+            display: flex;
+            flex-direction: row;
+            border: 2px solid #d7d7d7;
+            border-radius: 5px;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .profile-icon-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .profile-icon-label {
+            position: absolute;
+            padding: 1px;
+            font-weight: 600;
+            font-size: 15px;
+            background: rgb(255, 194, 37, 0.6);
+            transform: translate(18px, 22px);
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 3px;
+        }
+
+        .profile-overview {
+            margin-left: 10px;
+            width: calc(100% - 60px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-overview-name {
+            font-weight: 600;
+        }
+
+        .profile-overview-params {
+            font-size: 15px;
+            width: 400px;
+            color: #6c757d;
+            margin: 1px 0;
+            word-break: break-all;
+        }
+
+        .title {
+            app-region: drag;
+        }
+    </style>
+    <script src="./model.js"></script>
+    <script src="./vue-1.0.js"></script>
+
+</HEAD>
+
+<BODY>
+    <!-- <div class="title">Edge Launcher</div> -->
+    <div id="app">
+        <div class="profiler-container">
+            <div class="profile-list">
+                <div class="profile-item" v-for="profile in profiles">
+                    <div class="profile-icon-container" :title="profile.exePath">
+                        <img src="./edge.png" alt="Edge" width="50" height="50">
+                        <div class="profile-icon-label">
+                            <span>DEV</span>
+                        </div>
+                    </div>
+                    <div class="profile-overview">
+                        <div class="profile-overview-name" :title="profile.exePath">
+                            {{ profile.name }}
+                        </div>
+                        <div class="profile-overview-params">
+                            {{ getProfileParams(profile) }}
+                        </div>
+                        <button v-on:click="launch($index)">Launch</button>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-form"></div>
+        </div>
+        <!-- <div v-for="profile in profiles">
+            <h3>{{ profile.name }}</h3>
+            <label for="exePath">Exe Path:</label>
+            <input v-on:change="updated($index,$event)" type="text" name="exePath" value="{{ profile.exePath }}">
+            <br>
+
+            <label for="appDir">App Directory:</label>
+            <input v-on:change="updated($index,$event)" type="text" name="appDir" value="{{ profile.appDir }}">
+            <br>
+            <label for="extraParams">Extra Parameters:</label>
+            <textarea v-on:change="updated($index,$event)" type="text"
+                name="extraParams">{{ profile.extraParams }}</textarea>
+            <button v-on:click="launch($index)">Launch</button>
+        </div> -->
+        <!-- <div id=""></div> -->
+    </div>
+
+    <script>
+
+        // var vm = new Vue({
+        //     // 选项
+        // })
+        // load profiles from local storage
+        var profiles_str = localStorage.getItem("profiles");
+        var profiles = null;
+        if (profiles_str) {
+            try {
+                profiles = JSON.parse(profiles_str);
+            } catch (error) {
+                console.log("Error: " + error);
+            }
+        }
+        if (!profiles) {
+            profiles = DEFAULT_PROFILES;
+        }
+
+        new Vue({
+            el: '#app',
+            data: {
+                profiles: profiles,
+            },
+            methods: {
+                launch: function (index) {
+                    console.log("launch: " + index);
+                },
+                getProfileParams: function (profile) {
+                    return getProfileParams(profile);
+                },
+                updated: function (index, event) {
+                    console.log("updated: " + index);
+                    console.log(event);
+                    profiles[index][event.target.name] = event.target.value;
+                    console.log(profiles[index][event.target.name])
+                    localStorage.setItem("profiles", JSON.stringify(this.profiles));
+                },
+            }
+        })
+    </script>
+</BODY>
+
+</HTML>

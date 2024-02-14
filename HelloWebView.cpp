@@ -30,11 +30,11 @@ LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 // Pointer to WebViewController
 static wil::com_ptr<ICoreWebView2Controller> webviewController;
-static wil::com_ptr<ICoreWebView2Controller3> controller3;
+// static wil::com_ptr<ICoreWebView2Controller3> controller3;
 
 // Pointer to WebView window
 static wil::com_ptr<ICoreWebView2> webview;
-static wil::com_ptr<ICoreWebView2_21> webview_21;
+static wil::com_ptr<ICoreWebView2_3> webview_2_3;
 static std::vector<std::future<void>> g_futures;
 
 void executeCommand(const std::wstring& command) {
@@ -144,10 +144,10 @@ int CALLBACK WinMain(
 					[hWnd](HRESULT result, ICoreWebView2Controller* controller) -> HRESULT {
 						if (controller != nullptr) {
 							webviewController = controller;
-							controller3 = webviewController.query<ICoreWebView2Controller3>();
+							// controller3 = webviewController.query<ICoreWebView2Controller3>();
 							webviewController->get_CoreWebView2(&webview);
 						}
-						webview_21 = webview.query<ICoreWebView2_21>();
+						webview_2_3 = webview.query<ICoreWebView2_3>();
 
 						// Add a few settings for the webview
 						// The demo step is redundant since the values are the default settings
@@ -157,7 +157,7 @@ int CALLBACK WinMain(
 						settings->put_AreDefaultScriptDialogsEnabled(TRUE);
 						settings->put_IsWebMessageEnabled(TRUE);
 						auto settings8 = settings.query<ICoreWebView2Settings8>();
-						webview_21->SetVirtualHostNameToFolderMapping(L"chromium-launcher.localapp", L".", COREWEBVIEW2_HOST_RESOURCE_ACCESS_KIND_ALLOW);
+						webview_2_3->SetVirtualHostNameToFolderMapping(L"chromium-launcher.localapp", L".", COREWEBVIEW2_HOST_RESOURCE_ACCESS_KIND_ALLOW);
 
 						// Resize WebView to fit the bounds of the parent window
 						RECT bounds;
@@ -165,7 +165,7 @@ int CALLBACK WinMain(
 						webviewController->put_Bounds(bounds);
 
 						// Schedule an async task to navigate to Bing
-						webview->Navigate(L"https://chromium-launcher.localapp/simple.html");
+						webview->Navigate(L"https://chromium-launcher.localapp/index.html");
 
 						EventRegistrationToken token;
 
