@@ -1,0 +1,97 @@
+<HTML>
+
+<HEAD>
+  <META NAME="GENERATOR" Content="Microsoft Visual Studio">
+
+  <TITLE>Edge Launcher</TITLE>
+  <style>
+    .profile-container {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      padding: 20px;
+      background-color: #fff;
+    }
+  </style>
+  <script src="./vue-1.0.js"></script>
+
+</HEAD>
+
+<BODY>
+  <div class="title">Edge Launcher</div>
+  <div id="app">
+    <div class="profile-container" v-for="profile in profiles">
+      <h3>{{ profile.name }}</h3>
+      <label for="exePath">Exe Path:</label>
+      <input v-on:change="updated($index,$event)" type="text" name="exePath" value="{{ profile.exePath }}">
+      <br>
+
+      <label for="appDir">App Directory:</label>
+      <input v-on:change="updated($index,$event)" type="text" name="appDir" value="{{ profile.appDir }}">
+      <br>
+      <label for="extraParams">Extra Parameters:</label>
+      <textarea v-on:change="updated($index,$event)" type="text" name="extraParams">{{ profile.extraParams }}</textarea>
+      <button v-on:click="launch($index)">Launch</button>
+    </div>
+
+  </div>
+
+  <script>
+    // var vm = new Vue({
+    //     // 选项
+    // })
+    default_profiles =
+      [
+        {
+          "name": "Edge Launcher",
+          "exePath": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+          "appDir": "C:\\tmp\\1",
+          "extraParams": ""
+        },
+        {
+          "name": "Edge Launcher 2",
+          "exePath": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+          "appDir": "C:\\tmp\\1",
+          "extraParams": ""
+        }
+      ];
+    // load profiles from local storage
+    var profiles_str = localStorage.getItem("profiles");
+    var profiles = null;
+    if (profiles_str) {
+      try {
+        profiles = JSON.parse(profiles_str);
+      } catch (error) {
+        console.log("Error: " + error);
+      }
+    }
+    if (!profiles) {
+      profiles = default_profiles;
+    }
+
+    new Vue({
+      el: '#app',
+      data: {
+        profiles: profiles,
+      },
+      methods: {
+        launch: function (index) {
+          const profile = this.profiles[index];
+          // const cmd = JSON.stringify(profile.exePath) + " --user-data-dir=" + JSON.stringify(profile.appDir) + " " + profile.extraParams;
+          const cmd = `pwsh -Command "& '${profile.exePath}' --user-data-dir='${profile.appDir}' ${profile.extraParams}"`
+          console.log(cmd);
+          chrome.webview.postMessage("cmd:" + cmd);
+        },
+        updated: function (index, event) {
+          console.log("updated: " + index);
+          console.log(event);
+          profiles[index][event.target.name] = event.target.value;
+          console.log(profiles[index][event.target.name])
+          localStorage.setItem("profiles", JSON.stringify(this.profiles));
+        },
+      }
+    })
+  </script>
+</BODY>
+
+</HTML>
