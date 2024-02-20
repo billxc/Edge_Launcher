@@ -122,23 +122,23 @@
                     </div>
                 </div>
             </div>
-            <div class="profile-form"></div>
+            <div class="profile-form">
+                <div v-for="profile in profiles">
+                    <h3>{{ profile.name }}</h3>
+                    <label for="exePath">Exe Path:</label>
+                    <input v-on:change="updated($index,$event)" type="text" name="exePath" value="{{ profile.exePath }}">
+                    <br>
+        
+                    <label for="appDir">App Directory:</label>
+                    <input v-on:change="updated($index,$event)" type="text" name="appDir" value="{{ profile.appDir }}">
+                    <br>
+                    <label for="extraParams">Extra Parameters:</label>
+                    <textarea v-on:change="updated($index,$event)" type="text"
+                        name="extraParams">{{ profile.extraParams }}</textarea>
+                    <button v-on:click="launch($index)">Launch</button>
+                </div>
+            </div>
         </div>
-        <!-- <div v-for="profile in profiles">
-            <h3>{{ profile.name }}</h3>
-            <label for="exePath">Exe Path:</label>
-            <input v-on:change="updated($index,$event)" type="text" name="exePath" value="{{ profile.exePath }}">
-            <br>
-
-            <label for="appDir">App Directory:</label>
-            <input v-on:change="updated($index,$event)" type="text" name="appDir" value="{{ profile.appDir }}">
-            <br>
-            <label for="extraParams">Extra Parameters:</label>
-            <textarea v-on:change="updated($index,$event)" type="text"
-                name="extraParams">{{ profile.extraParams }}</textarea>
-            <button v-on:click="launch($index)">Launch</button>
-        </div> -->
-        <!-- <div id=""></div> -->
     </div>
 
     <script>
@@ -167,7 +167,11 @@
             },
             methods: {
                 launch: function (index) {
-                    console.log("launch: " + index);
+                    const profile = this.profiles[index];
+                    // const cmd = JSON.stringify(profile.exePath) + " --user-data-dir=" + JSON.stringify(profile.appDir) + " " + profile.extraParams;
+                    const cmd = `pwsh -Command "& '${profile.exePath}' --user-data-dir='${profile.appDir}' ${profile.extraParams}"`
+                    console.log(cmd);
+                    chrome.webview.postMessage("cmd:" + cmd);
                 },
                 getProfileParams: function (profile) {
                     return getProfileParams(profile);

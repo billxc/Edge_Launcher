@@ -23,14 +23,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="index.html">
+    <CopyFileToFolders Include="assets/index.html" />
+    <CopyFileToFolders Include="assets/vue-1.0.js" />
+    <CopyFileToFolders Include="assets/edge.png">
       <Filter>Resource Files</Filter>
     </CopyFileToFolders>
-    <CopyFileToFolders Include="vue-1.0.js">
-      <Filter>Resource Files</Filter>
-    </CopyFileToFolders>
-    <CopyFileToFolders Include="simple.html">
-      <Filter>Resource Files</Filter>
-    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets/simple.html" />
+    <CopyFileToFolders Include="assets/model.js" />
   </ItemGroup>
 </Project>
