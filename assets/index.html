@@ -293,7 +293,7 @@
                     <div class="profile-icon-container" :title="profile.exePath">
                         <img :src="getIcon($index)" alt="Edge" width="50" height="50">
                         <div v-show="profile.selectedChannel==='customized'" class="profile-icon-label">
-                            <span>{{ profile.labelText || 'LOCAL' }}</span>
+                            <span>{{ getProfileLabel(profile) }}</span>
                         </div>
                     </div>
                     <div class="profile-overview">
@@ -328,22 +328,31 @@
                     <div>
                         <label class="normal-label" for="channel">Channel:</label>
                         <div class="radio-group">
+                            <!-- Stable -->
                             <input type="radio" :id="$index+'-stable'" :name="$index+'channel'" value="stable"
                                 v-model="profile.selectedChannel">
                             <label :for="$index+'-stable'"
                                 :class="{ 'selected': profile.selectedChannel === 'stable','radio-label':true  }">Stable</label>
+
+                            <!-- Beta -->
                             <input type="radio" :id="$index+'-beta'" :name="$index+'channel'" value="beta"
                                 v-model="profile.selectedChannel">
                             <label :for="$index+'-beta'"
                                 :class="{ 'selected': profile.selectedChannel === 'beta','radio-label':true }">Beta</label>
+
+                            <!-- Dev -->
                             <input type="radio" :id="$index+'-dev'" :name="$index+'channel'" value="dev"
                                 v-model="profile.selectedChannel">
                             <label :for="$index+'-dev'"
                                 :class="{ 'selected': profile.selectedChannel === 'dev','radio-label':true }">Dev</label>
-                            <input type="radio" :id="$index+'-customized'" :name="$index+'channel'" value="customized"
+
+                            <!-- Canary -->
+                            <input type="radio" :id="$index+'-canary'" :name="$index+'channel'" value="canary"
                                 v-model="profile.selectedChannel">
                             <label :for="$index+'-canary'"
                                 :class="{ 'selected': profile.selectedChannel === 'canary','radio-label':true }">Canary</label>
+
+                            <!-- Customized -->
                             <input type="radio" :id="$index+'-customized'" :name="$index+'channel'" value="customized"
                                 v-model="profile.selectedChannel">
                             <label :for="$index+'-customized'"
@@ -382,7 +391,7 @@
     </div>
 
     <script type="module">
-        import { DEFAULT_PROFILES, getProfileParams } from './model.js';
+        import { DEFAULT_PROFILES, getProfileParams, getExePath } from './model.js';
 
         // load profiles from local storage
         var profiles_str = localStorage.getItem("profiles");
@@ -413,7 +422,7 @@
                 launch: function (index) {
                     const profile = this.profiles[index];
                     // const cmd = JSON.stringify(profile.exePath) + " --user-data-dir=" + JSON.stringify(profile.appDir) + " " + profile.extraParams;
-                    const cmd = `pwsh -Command "& '${profile.exePath}' --user-data-dir='${profile.appDir}' ${profile.extraParams}"`
+                    const cmd = `pwsh -Command "& '${getExePath(profile)}' ${getProfileParams(profile)}"`
                     console.log(cmd);
                     chrome.webview.postMessage("cmd:" + cmd);
                 },
@@ -485,6 +494,9 @@
                     profiles[index][event.target.name] = event.target.value;
                     console.log(profiles[index][event.target.name])
                     localStorage.setItem("profiles", JSON.stringify(this.profiles));
+                },
+                getProfileLabel: function (profile) {
+                    return profile.labelText || 'LOCAL';
                 }
             }, watch: {
                 selectedProfile: function (newVal, oldVal) {

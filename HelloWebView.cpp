@@ -22,7 +22,7 @@ using namespace Microsoft::WRL;
 static TCHAR szWindowClass[] = _T("DesktopApp");
 
 // The string that appears in the application's title bar.
-static TCHAR szTitle[] = _T("Chromium Launcher");
+static TCHAR szTitle[] = _T("Edge Launcher");
 
 HINSTANCE hInst;
 HINSTANCE& g_hInst = hInst;
