@@ -1,48 +1,74 @@
 export const DEFAULT_PROFILES =
   [
     {
-      "name": "Default",
-      "exePath": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
-      "appDir": "c:\\tmp",
-      "selectedChannel": "stable",
-      "extraParams": "--no-first-run  --disable-features=msImplicitSignin,msSeamlessWebToBrowserSignIn"
-    },
-    {
-      "name": "Edge Launcher 2",
-      "exePath": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+      "name": "Stable",
       "appDir": "",
       "selectedChannel": "stable",
-      "extraParams": "--no-first-run  --disable-features=msImplicitSignin,msSeamlessWebToBrowserSignIn"
+      "extraParams": ""
     },
     {
-      "name": "Edge Launcher 3",
-      "exePath": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+      "name": "Beta",
       "appDir": "",
-      "selectedChannel": "stable",
-      "extraParams": "--no-first-run  --disable-features=msImplicitSignin,msSeamlessWebToBrowserSignIn"
+      "selectedChannel": "beta",
+      "extraParams": ""
     },
     {
-      "name": "Edge Launcher 4",
-      "exePath": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+      "name": "Dev",
       "appDir": "",
-      "selectedChannel": "stable",
-      "extraParams": "--no-first-run  --disable-features=msImplicitSignin,msSeamlessWebToBrowserSignIn"
+      "selectedChannel": "dev",
+      "extraParams": ""
     },
     {
-      "name": "Edge Launcher 5",
+      "name": "Canary",
+      "appDir": "",
+      "selectedChannel": "canary",
+      "extraParams": ""
+    },
+    {
+      "name": "Customized",
       "exePath": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
       "appDir": "",
-      "selectedChannel": "stable",
-      "extraParams": "--no-first-run  --disable-features=msImplicitSignin,msSeamlessWebToBrowserSignIn"
+      "disabledFeatures": "msImplicitSignin,msSeamlessWebToBrowserSignIn",
+      "selectedChannel": "customized",
+      "extraParams": "--no-first-run"
     }
   ];
 
 
-
 export function getProfileParams(profile) {
-  if (profile.appDir == "") {
-    return profile.extraParams
-  } else {
-    return "--user-data-dir=" + profile.appDir + " " + profile.extraParams
+  let params = profile.extraParams;
+  if (profile.appDir) {
+    // TODO replace user data dir if it is already present in extraParams
+    params += ` --user-data-dir=${profile.appDir}`;
+  }
+  if (profile.disabledFeatures) {
+    params += ` --disabled-features=${profile.disabledFeatures}`;
+  }
+  if (profile.enabledFeatures) {
+    params += ` --enabled-features=${profile.enabledFeatures}`;
+  }
+  return params;
+}
+
+export function getExePath(profile) {
+  let exePath = '';
+  switch (profile.selectedChannel){
+    case 'stable':
+      exePath = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
+      break;
+    case 'beta':
+      exePath = 'C:\\Program Files (x86)\\Microsoft\\Edge Beta\\Application\\msedge.exe';
+      break;
+    case 'dev':
+      exePath = 'C:\\Program Files (x86)\\Microsoft\\Edge Dev\\Application\\msedge.exe';
+      break;
+    case 'canary':
+      exePath = 'C:\\Program Files (x86)\\Microsoft\\Edge SxS\\Application\\msedge.exe';
+      break;
+    case 'customized':
+      exePath = profile.exePath;
+      break;
+    default:
+      throw new Error('Invalid channel selected');
   }
 }

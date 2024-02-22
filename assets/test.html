@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .selected {
+            color: white;
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <input id="myInput" type="text" placeholder="Type here..." onkeyup="showSuggestions(this.value)">
+    <div id="suggestion-container"></div>
+    <ul id="selected-items"></ul>
+
+    <script>
+        var items = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry', 'Fig', 'Grape'];
+        var selectedItems = [];
+
+        function showSuggestions(str) {
+            var container = document.getElementById('suggestion-container');
+            container.innerHTML = '';
+            if (!str) {
+                return;
+            }
+            var regex = new RegExp('^' + str, 'i');
+            var suggestions = items.filter(function(item) {
+                return item.match(regex);
+            });
+            suggestions.forEach(function(suggestion) {
+                var div = document.createElement('div');
+                div.innerHTML = suggestion;
+                div.onclick = function() {
+                    if (!selectedItems.includes(suggestion)) {
+                        selectedItems.push(suggestion);
+                        updateSelectedItems();
+                    }
+                    document.getElementById('myInput').value = '';
+                    container.innerHTML = '';
+                };
+                container.appendChild(div);
+            });
+        }
+
+        function updateSelectedItems() {
+            var ul = document.getElementById('selected-items');
+            ul.innerHTML = '';
+            selectedItems.forEach(function(item) {
+                var li = document.createElement('li');
+                li.innerHTML = item;
+                ul.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>

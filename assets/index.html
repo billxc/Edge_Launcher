@@ -66,25 +66,12 @@
             justify-content: center;
         }
 
-        /* .profile-icon-label {
-            position: absolute;
-            padding: 1px;
-            font-weight: 600;
-            font-size: 15px;
-            background: rgb(255, 194, 37, 0.6);
-            transform: translate(18px, 22px);
-            color: black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 3px;
-        } */
         .profile-icon-label {
             position: absolute;
             padding: 1px;
             font-weight: 600;
             font-size: 11px;
-            background: rgb(255, 194, 37, 0.6);
+            background: rgb(161 125 255);
             transform: translate(14.5px, 17.7px);
             color: black;
             display: flex;
@@ -268,9 +255,9 @@
                         v-bind:class=" $index === selectedProfile ?'profile-selected-indicator-selected': 'profile-selected-indicator'">
                     </div>
                     <div class="profile-icon-container" :title="profile.exePath">
-                        <img src="./edge_beta.ico" alt="Edge" width="50" height="50">
-                        <div class="profile-icon-label">
-                            <span>DEV</span>
+                        <img :src="getIcon($index)" alt="Edge" width="50" height="50">
+                        <div  v-show="profile.selectedChannel==='customized'" class="profile-icon-label">
+                            <span>LOCAL</span>
                         </div>
                     </div>
                     <div class="profile-overview">
@@ -287,66 +274,52 @@
                         </div>
                     </div>
                 </div>
+                <div class="profile-item">
+                    ADD PROFILE
+                </div>
             </div>
-            <!-- <div class="profile-form">
-                <div v-for="profile in profiles" v-show="$index === selectedProfile">
-
-                    <h3>{{ profile.name }}</h3>
-
-                    <label for="exePath">Exe Path:</label>
-                    <input v-on:change="updated($index,$event)" type="text" name="exePath"
-                        value="{{ profile.exePath }}">
-                    <br>
-
-                    <label for="appDir">App Directory:</label>
-                    <input v-on:change="updated($index,$event)" type="text" name="appDir" value="{{ profile.appDir }}">
-                    <br>
-                    <label for="extraParams">Extra Parameters:</label>
-                    <textarea v-on:change="updated($index,$event)" type="text"
-                        name="extraParams">{{ profile.extraParams }}</textarea>
-                    <button v-on:click="launch($index)">Launch</button>
-                </div>
-            </div> -->
-            
             <div class="profile-form">
-                <label class="normal-label" for="profile-name">Profile Name:</label>
-                <input type="text" id="profile-name" name="profile-name">
+                <div v-for="profile in profiles" v-show="$index === selectedProfile">
+                    <label class="normal-label" for="profile-name">Profile Name:</label>
+                    <input type="text" id="profile-name" name="profile-name" v-model="profile.name">
 
-                <label class="normal-label" for="channel">Channel:</label>
-                <div id="channel" name="channel">
-                    <input type="radio" id="stable" name="channel" value="stable" v-model="selectedChannel">
-                    <label for="stable">Stable</label><br>
-                    <input type="radio" id="beta" name="channel" value="beta" v-model="selectedChannel">
-                    <label for="beta">Beta</label><br>
-                    <input type="radio" id="canary" name="channel" value="canary" v-model="selectedChannel">
-                    <label for="canary">Canary</label><br>
-                    <input type="radio" id="customized" name="channel" value="customized" v-model="selectedChannel">
-                    <label for="customized">Customized</label>
+                    <label class="normal-label" for="channel">Channel:</label>
+                    <input type="radio" :id="$index+'-stable'" :name="$index+'channel'" value="stable"
+                        v-model="profile.selectedChannel">
+                    <label :for="$index+'-stable'">Stable</label>
+                    <input type="radio" :id="$index+'-beta'" :name="$index+'channel'" value="beta"
+                        v-model="profile.selectedChannel">
+                    <label :for="$index+'-beta'">Beta</label>
+                    <input type="radio" :id="$index+'-canary'" :name="$index+'channel'" value="canary"
+                        v-model="profile.selectedChannel">
+                    <label :for="$index+'-canary'">Canary</label>
+                    <input type="radio" :id="$index+'-customized'" :name="$index+'channel'" value="customized"
+                        v-model="profile.selectedChannel">
+                    <label :for="$index+'-customized'">Customized</label>
+                    <p>Selected: {{ profile.selectedChannel }}</p>
+
+                    <div v-show="profile.selectedChannel==='customized'">
+                        <label class="normal-label" for="exePath">Exe Path:</label>
+                        <input v-on:change="updated($index,$event)" type="text" name="exePath"
+                            value="{{ profile.exePath }}">
+                    </div>
+
+                    <label class="normal-label" for="appDir">App Directory:</label>
+                    <input v-on:change="updated($index,$event)" type="text" name="appDir" value="{{ profile.appDir }}">
+
+                    <label class="normal-label" for="disabledFeatures">Disabled Features:</label>
+                    <input v-on:change="updated($index,$event)" type="text" name="disabledFeatures"
+                        value="{{ profile.disabledFeatures }}">
+
+                    <label class="normal-label" for="enabledFeatures">Enabled Features:</label>
+                    <input v-on:change="updated($index,$event)" type="text" name="enabledFeatures"
+                        value="{{ profile.enabledFeatures }}">
+
+                    <label class="normal-label" for="extra-parameters">Extra Parameters:</label>
+                    <textarea class="bigTextArea" v-on:change="updated($index,$event)" type="text"
+                        name="extraParams">{{ profile.extraParams }}</textarea>
+
                 </div>
-
-                <div>
-
-                    <label class="normal-label" for="exePath">Exe Path:</label>
-                    <input v-on:change="updated($index,$event)" type="text" name="exePath"
-                        value="{{ profile.exePath }}">
-                </div>
-
-                <label class="normal-label" for="appDir">App Directory:</label>
-                <input v-on:change="updated($index,$event)" type="text" name="appDir" value="{{ profile.appDir }}">
-
-                <label class="normal-label" for="disabledFeatures">Disabled Features:</label>
-                <input v-on:change="updated($index,$event)" type="text" name="disabledFeatures"
-                    value="{{ profile.disabledFeatures }}">
-
-                <label class="normal-label" for="enabledFeatures">Enabled Features:</label>
-                <input v-on:change="updated($index,$event)" type="text" name="enabledFeatures"
-                    value="{{ profile.enabledFeatures }}">
-
-                <label class="normal-label" for="extra-parameters">Extra Parameters:</label>
-                <textarea class="bigTextArea" v-on:change="updated($index,$event)" type="text"
-                    name="extraParams">{{ profile.extraParams }}</textarea>
-
-                <button v-on:click="launch($index)">Launch</button>
             </div>
         </div>
     </div>
@@ -370,7 +343,7 @@
             console.log("Using default profiles");
             profiles = DEFAULT_PROFILES;
         }
-
+        window.profiles = profiles;
         new Vue({
             el: '#app',
             data: {
@@ -378,8 +351,7 @@
             data: function () {
                 return {
                     profiles: profiles,
-                    editingName: false,
-                    selectedProfile: null // the selected profile
+                    selectedProfile: parseInt(localStorage.getItem("selectedProfile")) // the selected profile
                 };
             },
             methods: {
@@ -390,8 +362,28 @@
                     console.log(cmd);
                     chrome.webview.postMessage("cmd:" + cmd);
                 },
+                updateChannel: function (index, event) {
+                    const value = event.target.value;
+                    console.log("updateChannel: " + index + " " + value);
+                    this.profiles[index].channel = value;
+                    localStorage.setItem("profiles", JSON.stringify(this.profiles));
+                },
                 getProfileParams: function (profile) {
                     return getProfileParams(profile);
+                },
+                getIcon(index) {
+                    switch (this.profiles[index].selectedChannel) {
+                        case "stable":
+                            return "./edge.ico";
+                        case "beta":
+                            return "./edge_beta.ico";
+                        case "dev":
+                            return "./edge_dev.ico";
+                        case "canary":
+                            return "./edge_canary.ico";
+                        case "customized":
+                            return "./edge.ico";
+                    }
                 },
                 selectProfile: function (index) {
                     console.log("selected: " + index);
@@ -404,6 +396,16 @@
                     console.log(profiles[index][event.target.name])
                     localStorage.setItem("profiles", JSON.stringify(this.profiles));
                 }
+            }, watch: {
+                selectedProfile: function (newVal, oldVal) {
+                    console.log('message changed from', oldVal, 'to', newVal);
+                    localStorage.setItem("selectedProfile", newVal);
+                }
+            }, created: function () {
+                this.$watch('profiles', function (newVal, oldVal) {
+                    localStorage.setItem("profiles", JSON.stringify(newVal));
+                    console.log('profiles changed', newVal);
+                }, { deep: true });
             }
         })
     </script>
