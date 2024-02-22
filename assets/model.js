@@ -37,16 +37,20 @@ export const DEFAULT_PROFILES =
 
 export function getProfileParams(profile) {
   let params = profile.extraParams;
-  console.log('profile', profile)
+  // remove all \n from the string
+  params = params.replace(/\n/g, ' ');
+  // remove all \r from the string
+  params = params.replace(/\r/g, ' ');
   if (!!profile.appDir) {
-    console.log('profile.appDir', profile.appDir)
     // TODO replace user data dir if it is already present in extraParams
-    params += ` --user-data-dir=${profile.appDir}`;
+    params += ` --user-data-dir='${profile.appDir}'`;
   }
   if (!!profile.disabledFeatures) {
+    // TODO add disabled features if it is already present in extraParams
     params += ` --disabled-features=${profile.disabledFeatures}`;
   }
   if (!!profile.enabledFeatures) {
+    // TODO add enabled features if it is already present in extraParams
     params += ` --enabled-features=${profile.enabledFeatures}`;
   }
   return params;
