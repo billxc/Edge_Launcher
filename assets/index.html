@@ -183,30 +183,6 @@
             app-region: drag;
         }
 
-        .action-buttons {
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-end;
-        }
-
-        .action-buttons button {
-            padding: 5px 10px;
-            margin-left: 10px;
-            background-color: #00000014;
-            color: #4bab10;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .action-buttons button:hover {
-            background-color: #00000034;
-            color: #4bab10;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
         .profile-selected-indicator {
             min-width: 8px;
         }
@@ -218,28 +194,65 @@
             margin-right: 2px;
         }
 
-
-        .custom-select select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            background-color: #f1f1f1;
-            color: #000;
-            overflow: auto;
+        .radio-group {
+            height: 30px;
         }
 
-        /* Hide scrollbar for Chrome, Safari and Opera */
-        .custom-select select::-webkit-scrollbar {
+        .radio-group input[type="radio"] {
             display: none;
         }
 
-        /* Hide scrollbar for IE, Edge and Firefox */
-        .custom-select select {
-            -ms-overflow-style: none;
-            /* IE and Edge */
-            scrollbar-width: none;
-            /* Firefox */
+        .radio-group .radio-label {
+            font-size: 15px;
+            background-color: #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            display: inline-block;
+            padding: 5px;
+        }
+
+        .radio-group .radio-label.selected {
+            background-color: rgb(231, 238, 243);
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+        }
+
+        .action-buttons button {
+            margin-left: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-btn {
+            background-color: #ffccd5;
+            color: #721c24;
+        }
+
+        .move-btn {
+            background-color: #a6dcef;
+            color: #0c5460;
+        }
+
+        .launch-btn {
+            background-color: #b9e2b1;
+            color: #155724;
+        }
+
+        .launch-btn:hover {
+            background-color: #a6d98d;
+        }
+
+        .delete-btn:hover {
+            background-color: #ffbbc4;
+        }
+
+        .move-btn:hover {
+            background-color: #92c9e8;
         }
     </style>
     <script src="./vue-1.0.js"></script>
@@ -256,8 +269,8 @@
                     </div>
                     <div class="profile-icon-container" :title="profile.exePath">
                         <img :src="getIcon($index)" alt="Edge" width="50" height="50">
-                        <div  v-show="profile.selectedChannel==='customized'" class="profile-icon-label">
-                            <span>LOCAL</span>
+                        <div v-show="profile.selectedChannel==='customized'" class="profile-icon-label">
+                            <span>{{ profile.labelText || 'LOCAL' }}</span>
                         </div>
                     </div>
                     <div class="profile-overview">
@@ -270,38 +283,57 @@
                             </div>
                         </div>
                         <div class="action-buttons">
-                            <button class="launch-button" v-on:click="launch($index)">&#9658;</button>
+                            <button class="delete-btn" v-on:click="deleteProfile($index,$event)">&#10006;</button>
+                            <button class="move-btn" v-on:click="moveup($index,$event)">&#708;
+                            </button>
+                            <button class="move-btn" v-on:click="movedown($index,$event)">&#709;</button>
+                            <button class="launch-btn" v-on:click="launch($index)">Launch</button>
                         </div>
                     </div>
                 </div>
-                <div class="profile-item">
+                <div class="profile-item" @click="createNewProfile()">
                     ADD PROFILE
                 </div>
             </div>
             <div class="profile-form">
                 <div v-for="profile in profiles" v-show="$index === selectedProfile">
-                    <label class="normal-label" for="profile-name">Profile Name:</label>
-                    <input type="text" id="profile-name" name="profile-name" v-model="profile.name">
+                    <label class="normal-label" :for="$index+'-profile-name'">Profile Name:</label>
+                    <input type="text" :id="$index+'-profile-name'" name="profile-name" v-model="profile.name">
 
-                    <label class="normal-label" for="channel">Channel:</label>
-                    <input type="radio" :id="$index+'-stable'" :name="$index+'channel'" value="stable"
-                        v-model="profile.selectedChannel">
-                    <label :for="$index+'-stable'">Stable</label>
-                    <input type="radio" :id="$index+'-beta'" :name="$index+'channel'" value="beta"
-                        v-model="profile.selectedChannel">
-                    <label :for="$index+'-beta'">Beta</label>
-                    <input type="radio" :id="$index+'-canary'" :name="$index+'channel'" value="canary"
-                        v-model="profile.selectedChannel">
-                    <label :for="$index+'-canary'">Canary</label>
-                    <input type="radio" :id="$index+'-customized'" :name="$index+'channel'" value="customized"
-                        v-model="profile.selectedChannel">
-                    <label :for="$index+'-customized'">Customized</label>
-                    <p>Selected: {{ profile.selectedChannel }}</p>
+                    <div>
+                        <label class="normal-label" for="channel">Channel:</label>
+                        <div class="radio-group">
+                            <input type="radio" :id="$index+'-stable'" :name="$index+'channel'" value="stable"
+                                v-model="profile.selectedChannel">
+                            <label :for="$index+'-stable'"
+                                :class="{ 'selected': profile.selectedChannel === 'stable','radio-label':true  }">Stable</label>
+                            <input type="radio" :id="$index+'-beta'" :name="$index+'channel'" value="beta"
+                                v-model="profile.selectedChannel">
+                            <label :for="$index+'-beta'"
+                                :class="{ 'selected': profile.selectedChannel === 'beta','radio-label':true }">Beta</label>
+                            <input type="radio" :id="$index+'-dev'" :name="$index+'channel'" value="dev"
+                                v-model="profile.selectedChannel">
+                            <label :for="$index+'-dev'"
+                                :class="{ 'selected': profile.selectedChannel === 'dev','radio-label':true }">Dev</label>
+                            <input type="radio" :id="$index+'-customized'" :name="$index+'channel'" value="customized"
+                                v-model="profile.selectedChannel">
+                            <label :for="$index+'-canary'"
+                                :class="{ 'selected': profile.selectedChannel === 'canary','radio-label':true }">Canary</label>
+                            <input type="radio" :id="$index+'-customized'" :name="$index+'channel'" value="customized"
+                                v-model="profile.selectedChannel">
+                            <label :for="$index+'-customized'"
+                                :class="{ 'selected': profile.selectedChannel === 'customized','radio-label':true }">Customized</label>
+                        </div>
+                        <!-- <p>Selected: {{ profile.selectedChannel }}</p> -->
+                    </div>
 
                     <div v-show="profile.selectedChannel==='customized'">
                         <label class="normal-label" for="exePath">Exe Path:</label>
                         <input v-on:change="updated($index,$event)" type="text" name="exePath"
                             value="{{ profile.exePath }}">
+                        <label class="normal-label" for="labelText">Label Text:</label>
+                        <input v-on:change="updated($index,$event)" type="text" name="labelText"
+                            value="{{ profile.labelText }}" maxlength="5">
                     </div>
 
                     <label class="normal-label" for="appDir">App Directory:</label>
@@ -326,9 +358,7 @@
 
     <script type="module">
         import { DEFAULT_PROFILES, getProfileParams } from './model.js';
-        // var vm = new Vue({
-        //     // 选项
-        // })
+
         // load profiles from local storage
         var profiles_str = localStorage.getItem("profiles");
         var profiles = null;
@@ -384,6 +414,41 @@
                         case "customized":
                             return "./edge.ico";
                     }
+                },
+                moveup(index, event) {
+                    if (index > 0) {
+                        const temp = this.profiles[index];
+                        this.profiles.splice(index, 1);
+                        this.profiles.splice(index - 1, 0, temp);
+                        this.selectedProfile = index - 1;
+                    }
+                    event.stopPropagation();
+                },
+                deleteProfile(index, event) {
+                    this.profiles.splice(index, 1);
+                    if (this.selectedProfile >= this.profiles.length) {
+                        this.selectedProfile = this.profiles.length - 1;
+                    }
+                    event.stopPropagation();
+                },
+                movedown(index, event) {
+                    if (index < this.profiles.length - 1) {
+                        const temp = this.profiles[index];
+                        this.profiles.splice(index, 1);
+                        this.profiles.splice(index + 1, 0, temp);
+                        this.selectedProfile = index + 1;
+                    }
+                    event.stopPropagation();
+                },
+                createNewProfile() {
+                    this.profiles.push({
+                        name: "New Profile",
+                        selectedChannel: "stable",
+                        disabledFeatures: "",
+                        enabledFeatures: "",
+                        extraParams: ""
+                    });
+                    this.selectedProfile = this.profiles.length - 1;
                 },
                 selectProfile: function (index) {
                     console.log("selected: " + index);

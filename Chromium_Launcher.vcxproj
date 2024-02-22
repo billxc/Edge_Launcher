@@ -224,8 +224,10 @@
   <ItemGroup>
     <CopyFileToFolders Include="assets/index.html" />
     <CopyFileToFolders Include="assets/vue-1.0.js" />
-    <CopyFileToFolders Include="assets/edge.png" />
-    <CopyFileToFolders Include="assets/simple.html" />
+    <CopyFileToFolders Include="assets/edge.ico" />
+    <CopyFileToFolders Include="assets/edge_beta.ico" />
+    <CopyFileToFolders Include="assets/edge_canary.ico" />
+    <CopyFileToFolders Include="assets/edge_dev.ico" />
     <CopyFileToFolders Include="assets/model.js" />
     <None Include="packages.config" />
   </ItemGroup>
