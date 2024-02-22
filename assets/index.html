@@ -36,6 +36,8 @@
         .profile-list {
             margin-right: 20px;
             width: 460px;
+            display: flex;
+            flex-direction: column;
         }
 
         .profile-item {
@@ -254,6 +256,27 @@
         .move-btn:hover {
             background-color: #92c9e8;
         }
+
+        .add-profile-btn {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transform: translateX(7.5px);
+            min-width: calc(100% + 15px);
+        }
+
+        .add-profile-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .add-profile-btn:hover {
+            background-color: #0056b3;
+        }
     </style>
     <script src="./vue-1.0.js"></script>
 </HEAD>
@@ -291,8 +314,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="profile-item" @click="createNewProfile()">
-                    ADD PROFILE
+                <div class="add-profile-container">
+                    <button class="add-profile-btn" @click="createNewProfile()">
+                        ADD PROFILE
+                    </button>
                 </div>
             </div>
             <div class="profile-form">

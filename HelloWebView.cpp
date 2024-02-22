@@ -108,7 +108,7 @@ int CALLBACK WinMain(
 		szTitle,
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT,
-		1200, 900,
+		800, 500,
 		NULL,
 		NULL,
 		hInstance,
@@ -233,7 +233,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		UINT uDpi = GetDpiForSystem();
 
 		UINT uHeight = MulDiv(600, uDpi, 96);
-		UINT uWidth = MulDiv(800, uDpi, 96);
+		UINT uWidth = MulDiv(900, uDpi, 96);
 
 		// // Hide the borders
 		//LONG_PTR Style = GetWindowLongPtr(hWnd, GWL_STYLE);
