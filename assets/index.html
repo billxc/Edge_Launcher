@@ -11,7 +11,7 @@
             padding: 0;
         }
 
-        #app button {
+        button {
             padding: 10px 20px;
             background-color: #007BFF;
             color: #fff;
@@ -20,17 +20,17 @@
             cursor: pointer;
         }
 
-        #app button:hover {
+        button:hover {
             background-color: #0056b3;
         }
 
         .profiler-container {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            padding: 20px;
+            /* border: 1px solid #ddd; */
+            /* border-radius: 5px; */
+            /* margin-bottom: 20px; */
+            padding: 10px;
             display: flex;
-            justify-content: space-between;
+            /* justify-content: space-between; */
         }
 
         .profile-list {
@@ -38,17 +38,26 @@
             width: 460px;
         }
 
-        .profile-form {
-            width: 100%;
-        }
-
         .profile-item {
             display: flex;
             flex-direction: row;
-            border: 2px solid #d7d7d7;
+            border: 1px solid #d7d7d7;
             border-radius: 5px;
-            padding: 10px;
-            width: 100%;
+            margin: 5px;
+            padding: 5px;
+            min-width: 100%;
+            transition: background-color 0.3s ease;
+            /* Smooth transition */
+        }
+
+        .profile-item:hover {
+            background-color: #f0f0f0;
+            /* Light gray background on hover */
+        }
+
+        .profile-item.selected {
+            background-color: #d0d0d0;
+            /* Darker gray background when selected */
         }
 
         .profile-icon-container {
@@ -57,7 +66,7 @@
             justify-content: center;
         }
 
-        .profile-icon-label {
+        /* .profile-icon-label {
             position: absolute;
             padding: 1px;
             font-weight: 600;
@@ -69,11 +78,24 @@
             justify-content: center;
             align-items: center;
             border-radius: 3px;
+        } */
+        .profile-icon-label {
+            position: absolute;
+            padding: 1px;
+            font-weight: 600;
+            font-size: 11px;
+            background: rgb(255, 194, 37, 0.6);
+            transform: translate(14.5px, 17.7px);
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 2px;
         }
 
         .profile-overview {
             margin-left: 10px;
-            width: calc(100% - 60px);
+            min-width: calc(100% - 68px);
             display: flex;
             flex-direction: column;
         }
@@ -84,19 +106,156 @@
 
         .profile-overview-params {
             font-size: 15px;
-            width: 400px;
+            min-width: 400px;
             color: #6c757d;
             margin: 1px 0;
             word-break: break-all;
         }
 
+        .profile-overview-params-inner {
+            width: calc(100% - 10px);
+        }
+
+        .profile-form {
+            min-width: calc(100% - 503px);
+            /* min-width: 300px; */
+            /* adjust as needed */
+            padding: 5px;
+            margin: 5px;
+            background-color: #fff;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+        }
+
+        .profile-form .normal-label {
+            display: block;
+            margin-top: 20px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .profile-form input[type="text"],
+        .profile-form select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .profile-form textarea {
+            min-width: 100%;
+            resize: vertical;
+            padding: 4px 11px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+
+        .profile-form textarea.bigTextArea {
+            min-height: 100px;
+        }
+
+        .profile-form input[type="text"]:hover,
+        .profile-form textarea:hover {
+            border-color: #40a9ff;
+        }
+
+        .profile-form input[type="text"]:focus,
+        .profile-form textarea:focus {
+            border-color: #40a9ff;
+            outline: 0;
+        }
+
+        .profile-form input[type="checkbox"] {
+            display: inline-block;
+            width: auto;
+            margin: 10px 5px;
+        }
+
+        .profile-form select[multiple] {
+            height: 100px;
+        }
+
+        .profile-form button {
+            margin-top: 20px;
+            color: #fff;
+            background-color: #1890ff;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .profile-form button:hover {
+            background-color: #40a9ff;
+        }
+
         .title {
             app-region: drag;
         }
-    </style>
-    <script src="./model.js"></script>
-    <script src="./vue-1.0.js"></script>
 
+        .action-buttons {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+        }
+
+        .action-buttons button {
+            padding: 5px 10px;
+            margin-left: 10px;
+            background-color: #00000014;
+            color: #4bab10;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .action-buttons button:hover {
+            background-color: #00000034;
+            color: #4bab10;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .profile-selected-indicator {
+            min-width: 8px;
+        }
+
+        .profile-selected-indicator-selected {
+            background-color: #40a9ff;
+            min-width: 6px;
+            border-radius: 2px;
+            margin-right: 2px;
+        }
+
+
+        .custom-select select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f1f1f1;
+            color: #000;
+            overflow: auto;
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .custom-select select::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .custom-select select {
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
+        }
+    </style>
+    <script src="./vue-1.0.js"></script>
 </HEAD>
 
 <BODY>
@@ -104,9 +263,12 @@
     <div id="app">
         <div class="profiler-container">
             <div class="profile-list">
-                <div class="profile-item" v-for="profile in profiles">
+                <div class="profile-item" v-for="profile in profiles" v-on:click="selectProfile($index)">
+                    <div
+                        v-bind:class=" $index === selectedProfile ?'profile-selected-indicator-selected': 'profile-selected-indicator'">
+                    </div>
                     <div class="profile-icon-container" :title="profile.exePath">
-                        <img src="./edge.png" alt="Edge" width="50" height="50">
+                        <img src="./edge_beta.ico" alt="Edge" width="50" height="50">
                         <div class="profile-icon-label">
                             <span>DEV</span>
                         </div>
@@ -116,19 +278,26 @@
                             {{ profile.name }}
                         </div>
                         <div class="profile-overview-params">
-                            {{ getProfileParams(profile) }}
+                            <div class="profile-overview-params-inner">
+                                {{ getProfileParams(profile) }}
+                            </div>
                         </div>
-                        <button v-on:click="launch($index)">Launch</button>
+                        <div class="action-buttons">
+                            <button class="launch-button" v-on:click="launch($index)">&#9658;</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="profile-form">
-                <div v-for="profile in profiles">
+            <!-- <div class="profile-form">
+                <div v-for="profile in profiles" v-show="$index === selectedProfile">
+
                     <h3>{{ profile.name }}</h3>
+
                     <label for="exePath">Exe Path:</label>
-                    <input v-on:change="updated($index,$event)" type="text" name="exePath" value="{{ profile.exePath }}">
+                    <input v-on:change="updated($index,$event)" type="text" name="exePath"
+                        value="{{ profile.exePath }}">
                     <br>
-        
+
                     <label for="appDir">App Directory:</label>
                     <input v-on:change="updated($index,$event)" type="text" name="appDir" value="{{ profile.appDir }}">
                     <br>
@@ -137,12 +306,53 @@
                         name="extraParams">{{ profile.extraParams }}</textarea>
                     <button v-on:click="launch($index)">Launch</button>
                 </div>
+            </div> -->
+            
+            <div class="profile-form">
+                <label class="normal-label" for="profile-name">Profile Name:</label>
+                <input type="text" id="profile-name" name="profile-name">
+
+                <label class="normal-label" for="channel">Channel:</label>
+                <div id="channel" name="channel">
+                    <input type="radio" id="stable" name="channel" value="stable" v-model="selectedChannel">
+                    <label for="stable">Stable</label><br>
+                    <input type="radio" id="beta" name="channel" value="beta" v-model="selectedChannel">
+                    <label for="beta">Beta</label><br>
+                    <input type="radio" id="canary" name="channel" value="canary" v-model="selectedChannel">
+                    <label for="canary">Canary</label><br>
+                    <input type="radio" id="customized" name="channel" value="customized" v-model="selectedChannel">
+                    <label for="customized">Customized</label>
+                </div>
+
+                <div>
+
+                    <label class="normal-label" for="exePath">Exe Path:</label>
+                    <input v-on:change="updated($index,$event)" type="text" name="exePath"
+                        value="{{ profile.exePath }}">
+                </div>
+
+                <label class="normal-label" for="appDir">App Directory:</label>
+                <input v-on:change="updated($index,$event)" type="text" name="appDir" value="{{ profile.appDir }}">
+
+                <label class="normal-label" for="disabledFeatures">Disabled Features:</label>
+                <input v-on:change="updated($index,$event)" type="text" name="disabledFeatures"
+                    value="{{ profile.disabledFeatures }}">
+
+                <label class="normal-label" for="enabledFeatures">Enabled Features:</label>
+                <input v-on:change="updated($index,$event)" type="text" name="enabledFeatures"
+                    value="{{ profile.enabledFeatures }}">
+
+                <label class="normal-label" for="extra-parameters">Extra Parameters:</label>
+                <textarea class="bigTextArea" v-on:change="updated($index,$event)" type="text"
+                    name="extraParams">{{ profile.extraParams }}</textarea>
+
+                <button v-on:click="launch($index)">Launch</button>
             </div>
         </div>
     </div>
 
-    <script>
-
+    <script type="module">
+        import { DEFAULT_PROFILES, getProfileParams } from './model.js';
         // var vm = new Vue({
         //     // 选项
         // })
@@ -157,13 +367,20 @@
             }
         }
         if (!profiles) {
+            console.log("Using default profiles");
             profiles = DEFAULT_PROFILES;
         }
 
         new Vue({
             el: '#app',
             data: {
-                profiles: profiles,
+            },
+            data: function () {
+                return {
+                    profiles: profiles,
+                    editingName: false,
+                    selectedProfile: null // the selected profile
+                };
             },
             methods: {
                 launch: function (index) {
@@ -176,13 +393,17 @@
                 getProfileParams: function (profile) {
                     return getProfileParams(profile);
                 },
+                selectProfile: function (index) {
+                    console.log("selected: " + index);
+                    this.selectedProfile = index;
+                },
                 updated: function (index, event) {
                     console.log("updated: " + index);
                     console.log(event);
                     profiles[index][event.target.name] = event.target.value;
                     console.log(profiles[index][event.target.name])
                     localStorage.setItem("profiles", JSON.stringify(this.profiles));
-                },
+                }
             }
         })
     </script>
