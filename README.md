@@ -1,3 +1,5 @@
 
-# An elegant Edge Laucher for Win32
+# An elegant Edge Laucher for Windows, based on Webview2
 
+## Screenshot
+![Screenshot](screenshot.png)
