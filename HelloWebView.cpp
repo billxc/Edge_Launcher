@@ -158,7 +158,7 @@ int CALLBACK WinMain(
 						settings->put_AreDefaultScriptDialogsEnabled(TRUE);
 						settings->put_IsWebMessageEnabled(TRUE);
 						auto settings8 = settings.query<ICoreWebView2Settings8>();
-						webview_2_3->SetVirtualHostNameToFolderMapping(L"chromium-launcher.localapp", L".", COREWEBVIEW2_HOST_RESOURCE_ACCESS_KIND_ALLOW);
+						webview_2_3->SetVirtualHostNameToFolderMapping(L"edge-launcher.localapp", L".", COREWEBVIEW2_HOST_RESOURCE_ACCESS_KIND_ALLOW);
 
 						// Resize WebView to fit the bounds of the parent window
 						RECT bounds;
@@ -166,7 +166,7 @@ int CALLBACK WinMain(
 						webviewController->put_Bounds(bounds);
 
 						// Schedule an async task to navigate to Bing
-						webview->Navigate(L"https://chromium-launcher.localapp/index.html");
+						webview->Navigate(L"https://edge-launcher.localapp/index.html");
 
 						EventRegistrationToken token;
 

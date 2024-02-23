@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by Chromium_Launcher.rc
+// Used by Edge_Launcher.rc
 //
 #define IDI_APPICON 101
 
