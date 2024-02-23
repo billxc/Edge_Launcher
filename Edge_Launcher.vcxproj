@@ -222,13 +222,32 @@
     <ClCompile Include="HelloWebView.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="assets/index.html" />
-    <CopyFileToFolders Include="assets/vue-1.0.js" />
-    <CopyFileToFolders Include="assets/edge.ico" />
-    <CopyFileToFolders Include="assets/edge_beta.ico" />
-    <CopyFileToFolders Include="assets/edge_canary.ico" />
-    <CopyFileToFolders Include="assets/edge_dev.ico" />
-    <CopyFileToFolders Include="assets/model.js" />
+    <CopyFileToFolders Include="assets/index.html">
+      <DestinationFolders>$(OutDir)/assets/</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets/vue-1.0.js">
+      <DestinationFolders>$(OutDir)/assets/</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/assets/</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets/vue-1.0.min.js">
+      <DestinationFolders>$(OutDir)/assets/</DestinationFolders>
+      <DestinationFolders Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(OutDir)/assets/</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets/edge.ico">
+      <DestinationFolders>$(OutDir)/assets/</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets/edge_beta.ico">
+      <DestinationFolders>$(OutDir)/assets/</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets/edge_canary.ico">
+      <DestinationFolders>$(OutDir)/assets/</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets/edge_dev.ico">
+      <DestinationFolders>$(OutDir)/assets/</DestinationFolders>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="assets/model.js">
+      <DestinationFolders>$(OutDir)/assets/</DestinationFolders>
+    </CopyFileToFolders>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -158,7 +158,7 @@ int CALLBACK WinMain(
 						settings->put_AreDefaultScriptDialogsEnabled(TRUE);
 						settings->put_IsWebMessageEnabled(TRUE);
 						auto settings8 = settings.query<ICoreWebView2Settings8>();
-						webview_2_3->SetVirtualHostNameToFolderMapping(L"edge-launcher.localapp", L".", COREWEBVIEW2_HOST_RESOURCE_ACCESS_KIND_ALLOW);
+						webview_2_3->SetVirtualHostNameToFolderMapping(L"edge-launcher.localapp", L"./assets", COREWEBVIEW2_HOST_RESOURCE_ACCESS_KIND_ALLOW);
 
 						// Resize WebView to fit the bounds of the parent window
 						RECT bounds;
