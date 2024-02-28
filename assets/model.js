@@ -47,11 +47,11 @@ export function getProfileParams(profile) {
   }
   if (!!profile.disabledFeatures) {
     // TODO add disabled features if it is already present in extraParams
-    params += ` --disabled-features=${profile.disabledFeatures}`;
+    params += ` --disable-features=${profile.disabledFeatures}`;
   }
   if (!!profile.enabledFeatures) {
     // TODO add enabled features if it is already present in extraParams
-    params += ` --enabled-features=${profile.enabledFeatures}`;
+    params += ` --enable-features=${profile.enabledFeatures}`;
   }
   return params;
 }
