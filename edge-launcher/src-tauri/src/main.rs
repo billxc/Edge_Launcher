@@ -17,8 +17,7 @@ struct Profile {
 }
 
 fn get_edge_path(channel: &str) -> Option<String> {
-    let home = std::env::var("HOME").unwrap_or_default();
-    
+
     #[cfg(target_os = "windows")]
     {
         let program_files = std::env::var("ProgramFiles(x86)").unwrap_or("C:\\Program Files (x86)".to_string());

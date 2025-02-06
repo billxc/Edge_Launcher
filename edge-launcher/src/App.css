@@ -1,0 +1,26 @@
+.app-container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.profile-list-section {
+  width: 50%;
+  overflow: auto;
+  padding: 1.25rem;
+}
+
+.profile-detail-section {
+  width: 50%;
+  overflow: auto;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.controls {
+  display: none;
+  position: absolute;
+  right: 0.25rem;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 9999px;
