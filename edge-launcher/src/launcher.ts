@@ -125,14 +125,24 @@ export function getExePath(profile: Profile) {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-declare const chrome: any;
+import { invoke } from '@tauri-apps/api/core';
 
-export function launchProfile(profile: Profile){
-  const cmd = `pwsh -Command "& '${getExePath(profile)}' ${getProfileParams(profile)}"`
-  console.log(cmd);
-  if(chrome.webview){
-    chrome.webview.postMessage("cmd:" + cmd);
+export async function launchProfile(profile: Profile) {
+  try {
+    const result = await invoke('launch_edge', {
+      profile: {
+        name: profile.name,
+        app_dir: profile.appDir,
+        selected_channel: profile.selectedChannel,
+        exe_path: profile.exePath,
+        disabled_features: profile.disabledFeatures,
+        enabled_features: profile.enabledFeatures,
+        extra_params: profile.extraParams
+      }
+    });
+    console.log(result);
+  } catch (error) {
+    console.error('Failed to launch Edge:', error);
   }
 }
 

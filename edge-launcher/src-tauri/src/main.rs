@@ -4,7 +4,7 @@
 use std::process::Command;
 use std::path::Path;
 
-#[derive(serde::Deserialize)]
+#[derive(serde::Deserialize, Debug)]
 struct Profile {
     name: String,
     app_dir: String,
@@ -62,6 +62,7 @@ fn get_edge_path(channel: &str) -> Option<String> {
 
 #[tauri::command]
 fn launch_edge(profile: Profile) -> Result<String, String> {
+    println!("Launching Edge with profile: {:?}", profile);
     let exe_path = if let Some(custom_path) = profile.exe_path {
         if !custom_path.is_empty() {
             custom_path

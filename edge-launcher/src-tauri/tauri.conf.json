@@ -27,7 +27,7 @@
     
     "windows": [
       {
-        "url": "index.html"
+        "url": "http://localhost:5173/"
       }
     ]  }
 }
