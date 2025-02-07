@@ -27,6 +27,7 @@
     
     "windows": [
       {
+        "title": "Edge Launcher",
         "url": "index.html"
       }
     ]  }
