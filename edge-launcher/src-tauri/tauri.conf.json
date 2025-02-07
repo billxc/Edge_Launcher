@@ -1,0 +1,33 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "build": {
+    "beforeBuildCommand": "npm run build",
+    "beforeDevCommand": "npm run dev",
+    "frontendDist": "../dist"
+  },
+  "identifier": "com.edge.launcher",
+  "productName": "Edge Launcher",
+  "version": "0.1.0",
+  "app": {
+    "withGlobalTauri": true,
+    "enableGTKAppId": false,
+    "macOSPrivateApi": false,
+    "security": {
+      "assetProtocol": {
+        "enable": false,
+        "scope": []
+      },
+      "capabilities": [],
+      "dangerousDisableAssetCspModification": false,
+      "freezePrototype": false,
+      "pattern": {
+        "use": "brownfield"
+      }
+    },
+    
+    "windows": [
+      {
+        "url": "index.html"
+      }
+    ]  }
+}
