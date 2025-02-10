@@ -8,6 +8,11 @@
   "identifier": "com.edge.launcher",
   "productName": "Edge Launcher",
   "version": "0.1.0",
+  "bundle": {
+    "icon": [
+      "../../assets/icon.ico"
+    ]
+  },
   "app": {
     "withGlobalTauri": true,
     "enableGTKAppId": false,
@@ -24,11 +29,11 @@
         "use": "brownfield"
       }
     },
-    
     "windows": [
       {
         "title": "Edge Launcher",
         "url": "index.html"
       }
-    ]  }
+    ]
+  }
 }
