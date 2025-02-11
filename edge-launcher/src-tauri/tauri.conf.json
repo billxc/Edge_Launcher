@@ -10,7 +10,7 @@
   "version": "0.1.0",
   "bundle": {
     "icon": [
-      "../../assets/icon.ico"
+      "icons/icon.ico"
     ]
   },
   "app": {
